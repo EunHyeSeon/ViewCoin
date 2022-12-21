@@ -99,6 +99,22 @@ class coinDAO:
 
         return myresult
 
+    def selectbydate(self, date, asset):
+        myresult = []
+        try:
+            conn = getConnect()
+            cur = conn.cursor()
+            
+            cur.execute('select * from crypto where date=%s && asset=%s', (date, asset))
+            myresult = cur.fetchall()
+            conn.commit()
 
-        
+        except Exception as e:
+            conn.rollback()
+            print(e)
 
+        finally:
+            cur.close()
+            conn.close()
+
+        return myresult
